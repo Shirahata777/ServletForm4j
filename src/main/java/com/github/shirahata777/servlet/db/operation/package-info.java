@@ -1,1 +1,0 @@
-package com.github.shirahata777.servlet.db.operation;

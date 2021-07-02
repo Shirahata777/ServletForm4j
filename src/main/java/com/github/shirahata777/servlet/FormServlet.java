@@ -9,7 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.github.shirahata777.servlet.db.operation.DataOperation;
+
+import com.github.shirahata777.db.operation.DataOperation;
 
 /**
  * Servlet implementation class FormServlet
