@@ -23,6 +23,8 @@
 			</p>
 			<input type="submit" value="送信">
 		</form>
+		
+		<a href="/ServletForm4j/ResultServlet">aaaaaaa</a>
 	</main>
 </body>
 </html>

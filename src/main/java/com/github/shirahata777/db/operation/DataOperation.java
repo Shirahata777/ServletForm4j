@@ -7,7 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataOperation {
 
@@ -16,10 +19,9 @@ public class DataOperation {
 	private static final String USER = "shirahata";
 	private static final String PASS = "qwertyuiop";
 
-	public static void insertFromData(String name, String email, String content)  {
-		
-		Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis() - 1000*60*60*24);
-		
+	public static void insertFromData(String name, String email, String content) {
+
+		Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis() - 1000 * 60 * 60 * 24);
 
 		try (Connection connection = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS)) {
 			try {
@@ -27,7 +29,7 @@ public class DataOperation {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-			
+
 			String sql = "INSERT INTO contact(name, email, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
 			PreparedStatement st = connection.prepareStatement(sql);
 
@@ -43,8 +45,15 @@ public class DataOperation {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void getAllFromData() {
+
+	public static ArrayList<ArrayList<String>> getAllFromData() {
+
+		String sql = "SELECT * FROM contact";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		ArrayList<ArrayList<String>> formDataList = new ArrayList<>();
+
 		try (Connection connection = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS)) {
 			try {
 				Class.forName(POSTGRES_DRIVER);
@@ -52,17 +61,44 @@ public class DataOperation {
 				e.printStackTrace();
 			}
 
-			Statement stmt = connection.createStatement();
-			String sql = "SELECT * FROM contact";
-			ResultSet rset = stmt.executeQuery(sql);
-			while (rset.next()) {
-			    System.out.println(rset.getString(1));
+			ps = connection.prepareStatement(sql);
+
+			rs = ps.executeQuery();
+
+			// こんなふうにカラム数なども取得できちゃう
+			// int colCount = rs.getMetaData().getColumnCount();
+
+			while (rs.next()) {
+				ArrayList<String> formData = new ArrayList<>();
+				formData.add(String.format("%d", rs.getInt("id")));
+				formData.add(rs.getString("name"));
+				formData.add(rs.getString("email"));
+				formData.add(rs.getString("content"));
+				formDataList.add(formData);
 			}
-			rset.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			// クローズ処理
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+
 		}
+
+		return formDataList;
 	}
 
 }
