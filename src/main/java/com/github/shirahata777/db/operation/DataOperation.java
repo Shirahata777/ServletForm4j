@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -96,6 +96,26 @@ public class DataOperation {
 		}
 
 		return formDataList;
+	}
+
+	public static void initCreateFromDB() {
+
+		try (Connection connection = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS)) {
+			try (Statement st = connection.createStatement()) {
+				st.execute("CREATE TABLE if not exists contact (\n"
+						+ "id SERIAL NOT NULL,\n"
+						+ "name VARCHAR(255) NOT NULL, \n"
+						+ "email VARCHAR(255) NOT NULL,\n"
+						+ "content VARCHAR(255) NOT NULL,\n"
+						+ "created_at TIMESTAMP,\n"
+						+ "updated_at TIMESTAMP,\n"
+						+ "PRIMARY KEY (id)\n"
+						+ "); PRIMARY KEY (SingerId)\n");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
