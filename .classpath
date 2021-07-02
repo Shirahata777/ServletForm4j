@@ -14,5 +14,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/Library/Java/Extensions/postgresql-42.2.22.jar"/>
+	<classpathentry kind="lib" path="/Library/Java/Extensions/validation-api-2.0.0.Final.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

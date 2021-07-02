@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import com.github.shirahata777.model.FormDataQuery;
+
 public class DataOperation {
 
 	private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
@@ -17,9 +19,9 @@ public class DataOperation {
 	private static final String USER = "shirahata";
 	private static final String PASS = "qwertyuiop";
 
-	public static void insertFromData(String name, String email, String content) {
-
-		Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis() - 1000 * 60 * 60 * 24);
+	public static void insertFromData(FormDataQuery formQuery) {
+		
+		String sql = "INSERT INTO contact(name, email, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
 
 		try (Connection connection = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS)) {
 			try {
@@ -28,16 +30,18 @@ public class DataOperation {
 				e.printStackTrace();
 			}
 
-			String sql = "INSERT INTO contact(name, email, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
-			PreparedStatement st = connection.prepareStatement(sql);
+			try (PreparedStatement st = connection.prepareStatement(sql);) {
+				st.setString(1, formQuery.getName());
+				st.setString(2, formQuery.getEmail());
+				st.setString(3, formQuery.getContent());
+				st.setTimestamp(4, formQuery.getCreatedAt());
+				st.setTimestamp(5, formQuery.getUpdatedAt());
 
-			st.setString(1, name);
-			st.setString(2, email);
-			st.setString(3, content);
-			st.setTimestamp(4, timestamp);
-			st.setTimestamp(5, timestamp);
-
-			st.executeUpdate();
+				st.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
