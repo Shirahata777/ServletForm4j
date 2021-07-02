@@ -26,12 +26,18 @@ public class FormServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		
 		RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/view/form.jsp");
 		dispatch.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
 
 		String name = "";
 		String email = "";
