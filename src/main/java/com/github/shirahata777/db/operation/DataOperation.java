@@ -20,7 +20,7 @@ public class DataOperation {
 	private static final String PASS = "qwertyuiop";
 
 	public static void insertFromData(FormDataQuery formQuery) {
-		
+
 		String sql = "INSERT INTO contact(name, email, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
 
 		try (Connection connection = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS)) {
@@ -41,7 +41,6 @@ public class DataOperation {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
