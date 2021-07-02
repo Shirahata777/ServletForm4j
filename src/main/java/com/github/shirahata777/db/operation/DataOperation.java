@@ -5,12 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DataOperation {
 
@@ -65,9 +63,6 @@ public class DataOperation {
 
 			rs = ps.executeQuery();
 
-			// こんなふうにカラム数なども取得できちゃう
-			// int colCount = rs.getMetaData().getColumnCount();
-
 			while (rs.next()) {
 				ArrayList<String> formData = new ArrayList<>();
 				formData.add(String.format("%d", rs.getInt("id")));
@@ -80,7 +75,6 @@ public class DataOperation {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			// クローズ処理
 			if (rs != null)
 				try {
 					rs.close();

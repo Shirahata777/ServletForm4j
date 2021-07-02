@@ -2,14 +2,12 @@ package com.github.shirahata777.servlet;
 
 import java.io.IOException;
 
-import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.github.shirahata777.servlet.ResultServlet;
 
 import com.github.shirahata777.db.operation.DataOperation;
 
@@ -51,9 +49,6 @@ public class FormServlet extends HttpServlet {
 		DataOperation.insertFromData(name, email, content);
 		
 		ResultServlet resultServlet = new ResultServlet();
-		
-//		RequestDispatcher dispatch = request.getRequestDispatcher("/result");
-//		resultServlet.doGet(request, response);
 	}
 
 }
