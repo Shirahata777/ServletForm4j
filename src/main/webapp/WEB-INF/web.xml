@@ -18,7 +18,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>MainServletMapping</servlet-name>
-		<url-pattern>/main</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>FormServletMapping</servlet-name>
@@ -27,6 +27,14 @@
 	<servlet-mapping>
 		<servlet-name>FormServletMapping</servlet-name>
 		<url-pattern>/form</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ResultServletMapping</servlet-name>
+		<servlet-class>com.github.shirahata777.servlet.ResultServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResultServletMapping</servlet-name>
+		<url-pattern>/result</url-pattern>
 	</servlet-mapping>
 </web-app>
 
