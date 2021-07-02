@@ -53,6 +53,10 @@ public class FormServlet extends HttpServlet {
 
 		DataOperation.insertFromData(formQuery);
 
+		String url = "/ServletForm4j/ResultServlet";
+
+		response.sendRedirect(url);
+
 	}
 
 }
