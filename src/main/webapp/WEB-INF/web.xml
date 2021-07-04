@@ -36,5 +36,35 @@
 		<servlet-name>ResultServletMapping</servlet-name>
 		<url-pattern>/result</url-pattern>
 	</servlet-mapping>
+
+	<!-- <servlet> <servlet-name>LoginServletMapping</servlet-name> <servlet-class>com.github.shirahata777.servlet.LoginServlet</servlet-class> 
+		</servlet> <servlet-mapping> <servlet-name>LoginServletMapping</servlet-name> 
+		<url-pattern>/login</url-pattern> </servlet-mapping> <servlet> <servlet-name>LoginCheckServletMapping</servlet-name> 
+		<servlet-class>com.github.shirahata777.servlet.LoginCheckServlet</servlet-class> 
+		</servlet> <servlet-mapping> <servlet-name>LoginCheckServletMapping</servlet-name> 
+		<url-pattern>/loginCheck</url-pattern> </servlet-mapping> -->
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>User Form Auth</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>sales</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>User Form Auth</realm-name>
+		<form-login-config>
+			<form-login-page>/WEB-INF/view/login.jsp</form-login-page>
+			<form-error-page>/WEB-INF/view/error.jsp</form-error-page>
+		</form-login-config>
+	</login-config>
+
+	<security-role>
+		<role-name>sales</role-name>
+	</security-role>
 </web-app>
 

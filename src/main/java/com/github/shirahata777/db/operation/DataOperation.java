@@ -82,14 +82,12 @@ public class DataOperation {
 				try {
 					rs.close();
 				} catch (SQLException e) {
-
 					e.printStackTrace();
 				}
 			if (ps != null)
 				try {
 					ps.close();
 				} catch (SQLException e) {
-
 					e.printStackTrace();
 				}
 
@@ -99,18 +97,20 @@ public class DataOperation {
 	}
 
 	public static void initCreateFromDB() {
+		
+		String sql = "CREATE TABLE if not exists contact (\n"
+				+ "id SERIAL NOT NULL,\n"
+				+ "name VARCHAR(255) NOT NULL, \n"
+				+ "email VARCHAR(255) NOT NULL,\n"
+				+ "content VARCHAR(255) NOT NULL,\n"
+				+ "created_at TIMESTAMP,\n"
+				+ "updated_at TIMESTAMP,\n"
+				+ "PRIMARY KEY (id)\n"
+				+ "); PRIMARY KEY (SingerId)\n";
 
 		try (Connection connection = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS)) {
 			try (Statement st = connection.createStatement()) {
-				st.execute("CREATE TABLE if not exists contact (\n"
-						+ "id SERIAL NOT NULL,\n"
-						+ "name VARCHAR(255) NOT NULL, \n"
-						+ "email VARCHAR(255) NOT NULL,\n"
-						+ "content VARCHAR(255) NOT NULL,\n"
-						+ "created_at TIMESTAMP,\n"
-						+ "updated_at TIMESTAMP,\n"
-						+ "PRIMARY KEY (id)\n"
-						+ "); PRIMARY KEY (SingerId)\n");
+				st.execute(sql);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
