@@ -1,34 +1,41 @@
 package com.github.shirahata777.db.operation;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import com.github.shirahata777.model.FormDataQuery;
 
 public class DataOperation {
 
-	private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
-	private static final String JDBC_CONNECTION = "jdbc:postgresql://localhost:5432/form";
-	private static final String USER = "shirahata";
-	private static final String PASS = "qwertyuiop";
 
 	public static void insertFromData(FormDataQuery formQuery) {
 
 		String sql = "INSERT INTO contact(name, email, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+		
+		DataSource dataSource = null;
+		
+		try {
+			Context context = new InitialContext();
+			dataSource = (DataSource) context.lookup("java:comp/env/jdbc/default");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
 
-		try (Connection connection = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS)) {
-			try {
-				Class.forName(POSTGRES_DRIVER);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+		try (Connection connection = dataSource.getConnection()) {
+//			try {
+//				Class.forName(POSTGRES_DRIVER);
+//			} catch (ClassNotFoundException e) {
+//				e.printStackTrace();
+//			}
 
 			try (PreparedStatement st = connection.prepareStatement(sql);) {
 				st.setString(1, formQuery.getName());
@@ -52,15 +59,24 @@ public class DataOperation {
 		String sql = "SELECT * FROM contact";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		
+		DataSource dataSource = null;
+		
+		try {
+			Context context = new InitialContext();
+			dataSource = (DataSource) context.lookup("java:comp/env/jdbc/default");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
 
 		ArrayList<ArrayList<String>> formDataList = new ArrayList<>();
 
-		try (Connection connection = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS)) {
-			try {
-				Class.forName(POSTGRES_DRIVER);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+		try (Connection connection = dataSource.getConnection()) {
+//			try {
+//				Class.forName(POSTGRES_DRIVER);
+//			} catch (ClassNotFoundException e) {
+//				e.printStackTrace();
+//			}
 
 			ps = connection.prepareStatement(sql);
 
@@ -97,18 +113,22 @@ public class DataOperation {
 	}
 
 	public static void initCreateFromDB() {
-		
-		String sql = "CREATE TABLE if not exists contact (\n"
-				+ "id SERIAL NOT NULL,\n"
-				+ "name VARCHAR(255) NOT NULL, \n"
-				+ "email VARCHAR(255) NOT NULL,\n"
-				+ "content VARCHAR(255) NOT NULL,\n"
-				+ "created_at TIMESTAMP,\n"
-				+ "updated_at TIMESTAMP,\n"
-				+ "PRIMARY KEY (id)\n"
-				+ "); PRIMARY KEY (SingerId)\n";
 
-		try (Connection connection = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS)) {
+		String sql = "CREATE TABLE if not exists contact (\n" + "id SERIAL NOT NULL,\n"
+				+ "name VARCHAR(255) NOT NULL, \n" + "email VARCHAR(255) NOT NULL,\n"
+				+ "content VARCHAR(255) NOT NULL,\n" + "created_at TIMESTAMP,\n" + "updated_at TIMESTAMP,\n"
+				+ "PRIMARY KEY (id)\n" + "); PRIMARY KEY (SingerId)\n";
+		
+		DataSource dataSource = null;
+		
+		try {
+			Context context = new InitialContext();
+			dataSource = (DataSource) context.lookup("java:comp/env/jdbc/default");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+		try (Connection connection = dataSource.getConnection()) {
 			try (Statement st = connection.createStatement()) {
 				st.execute(sql);
 			}
