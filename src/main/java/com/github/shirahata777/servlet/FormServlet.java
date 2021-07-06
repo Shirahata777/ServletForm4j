@@ -43,9 +43,6 @@ public class FormServlet extends HttpServlet {
 
 		Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis() - 1000 * 60 * 60 * 24);
 		FormDataQuery formQuery = new FormDataQuery();
-		System.out.println(request.getParameter("name"));
-		System.out.println(request.getParameter("email"));
-		System.out.println(request.getParameter("content"));
 
 		formQuery.setName(request.getParameter("name"));
 		formQuery.setEmail(request.getParameter("email"));
