@@ -36,6 +36,14 @@
 		<servlet-name>ResultServletMapping</servlet-name>
 		<url-pattern>/result</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>CompletionServletMapping</servlet-name>
+		<servlet-class>com.github.shirahata777.servlet.CompletionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CompletionServletMapping</servlet-name>
+		<url-pattern>/completion</url-pattern>
+	</servlet-mapping>
 
 	<resource-ref>
 		<res-ref-name>jdbc/default</res-ref-name>
