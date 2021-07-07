@@ -49,11 +49,12 @@ public class FormServlet extends HttpServlet {
 		formQuery.setContent(request.getParameter("content"));
 		formQuery.setCreatedAt(timestamp);
 		formQuery.setUpdatedAt(timestamp);
-		System.out.println("Insert OK!");
 
 		DataOperation.insertFromData(formQuery);
+		System.out.println("Insert OK!");
 
-		String url = "/ServletForm4j/ResultServlet";
+//		String url = "/ServletForm4j/ResultServlet";
+		String url = "/ServletForm4j/CompletionServlet";
 
 		response.sendRedirect(url);
 

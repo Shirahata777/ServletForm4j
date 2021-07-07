@@ -24,7 +24,7 @@
 			<input type="submit" value="送信">
 		</form>
 		
-		<a href="/ServletForm4j/ResultServlet">aaaaaaa</a>
+		<a href="/ServletForm4j/ResultServlet">お問い合わせ一覧画面へ！</a>
 	</main>
 </body>
 </html>
