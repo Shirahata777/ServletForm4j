@@ -11,7 +11,7 @@
 		<p>フォーム</p>
 		<p>お問い合わせ内容を入力してください！</p>
 
-		<form method="post" action="./FormServlet">
+		<form method="post" action="./form">
 			<p>
 				お名前：<input type="text" name="name">
 			</p>
@@ -24,7 +24,7 @@
 			<input type="submit" value="送信">
 		</form>
 		
-		<a href="/ServletForm4j/ResultServlet">お問い合わせ一覧画面へ！</a>
+		<a href="/ServletForm4j/result">お問い合わせ一覧画面へ！</a>
 	</main>
 </body>
 </html>

@@ -3,6 +3,8 @@ package com.github.shirahata777.servlet;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,7 +18,7 @@ import com.github.shirahata777.db.operation.DataOperation;
 /**
  * Servlet implementation class ResultServlet
  */
-@WebServlet("/ResultServlet")
+@WebServlet("/result")
 public class ResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -30,18 +32,19 @@ public class ResultServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		ResultSet rs = null;
 
-		ArrayList<ArrayList<String>> formDataList = DataOperation.getAllFromData();
+		List<List<String>> formDataList = DataOperation.getAllFromData();
 
-		request.setAttribute("formDataList", formDataList);
-		request.setAttribute("formDataNum", formDataList.size());
+		if (Objects.isNull(formDataList)) {
+			response.setStatus(500);
+			RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/view/500.jsp");
+			dispatch.forward(request, response);
+		} else {
+			request.setAttribute("formDataList", formDataList);
+			request.setAttribute("formDataNum", formDataList.size());
+			RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/view/result.jsp");
+			dispatch.forward(request, response);
+		}
 
-		RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/view/result.jsp");
-		dispatch.forward(request, response);
 	}
-
-//	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//			throws ServletException, IOException {
-//		doGet(request, response);
-//	}
 
 }

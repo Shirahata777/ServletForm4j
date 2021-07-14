@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -16,26 +17,21 @@ import com.github.shirahata777.model.FormDataQuery;
 
 public class DataOperation {
 
-
-	public static void insertFromData(FormDataQuery formQuery) {
+	public static int insertFromData(FormDataQuery formQuery) {
 
 		String sql = "INSERT INTO contact(name, email, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
-		
+
 		DataSource dataSource = null;
-		
+
 		try {
 			Context context = new InitialContext();
 			dataSource = (DataSource) context.lookup("java:comp/env/jdbc/default");
 		} catch (NamingException e) {
 			e.printStackTrace();
+			return 500;
 		}
 
 		try (Connection connection = dataSource.getConnection()) {
-//			try {
-//				Class.forName(POSTGRES_DRIVER);
-//			} catch (ClassNotFoundException e) {
-//				e.printStackTrace();
-//			}
 
 			try (PreparedStatement st = connection.prepareStatement(sql);) {
 				st.setString(1, formQuery.getName());
@@ -47,36 +43,35 @@ public class DataOperation {
 				st.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				return 500;
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return 500;
 		}
+		return 200;
 	}
 
-	public static ArrayList<ArrayList<String>> getAllFromData() {
+	public static List<List<String>> getAllFromData() {
 
 		String sql = "SELECT * FROM contact";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
+
 		DataSource dataSource = null;
-		
+
 		try {
 			Context context = new InitialContext();
 			dataSource = (DataSource) context.lookup("java:comp/env/jdbc/default");
 		} catch (NamingException e) {
 			e.printStackTrace();
+			return null;
 		}
 
-		ArrayList<ArrayList<String>> formDataList = new ArrayList<>();
+		List<List<String>> formDataList = new ArrayList<>();
 
 		try (Connection connection = dataSource.getConnection()) {
-//			try {
-//				Class.forName(POSTGRES_DRIVER);
-//			} catch (ClassNotFoundException e) {
-//				e.printStackTrace();
-//			}
 
 			ps = connection.prepareStatement(sql);
 
@@ -93,18 +88,21 @@ public class DataOperation {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			if (rs != null)
 				try {
 					rs.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
+					return null;
 				}
 			if (ps != null)
 				try {
 					ps.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
+					return null;
 				}
 
 		}
@@ -118,9 +116,9 @@ public class DataOperation {
 				+ "name VARCHAR(255) NOT NULL, \n" + "email VARCHAR(255) NOT NULL,\n"
 				+ "content VARCHAR(255) NOT NULL,\n" + "created_at TIMESTAMP,\n" + "updated_at TIMESTAMP,\n"
 				+ "PRIMARY KEY (id)\n" + "); PRIMARY KEY (SingerId)\n";
-		
+
 		DataSource dataSource = null;
-		
+
 		try {
 			Context context = new InitialContext();
 			dataSource = (DataSource) context.lookup("java:comp/env/jdbc/default");

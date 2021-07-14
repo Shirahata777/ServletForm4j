@@ -17,7 +17,7 @@ import com.github.shirahata777.model.FormDataQuery;
 /**
  * Servlet implementation class FormServlet
  */
-@WebServlet("/FormServlet")
+@WebServlet("/form")
 public class FormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -50,13 +50,18 @@ public class FormServlet extends HttpServlet {
 		formQuery.setCreatedAt(timestamp);
 		formQuery.setUpdatedAt(timestamp);
 
-		DataOperation.insertFromData(formQuery);
-		System.out.println("Insert OK!");
+		int statusCode = DataOperation.insertFromData(formQuery);
 
-//		String url = "/ServletForm4j/ResultServlet";
-		String url = "/ServletForm4j/CompletionServlet";
-
-		response.sendRedirect(url);
+		System.out.println(statusCode);
+		response.setStatus(statusCode);
+		if (statusCode != 200) {
+			RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/view/500.jsp");
+			dispatch.forward(request, response);
+		} else {
+			System.out.println("Insert OK!");
+			String url = "/ServletForm4j/completion";
+			response.sendRedirect(url);
+		}
 
 	}
 

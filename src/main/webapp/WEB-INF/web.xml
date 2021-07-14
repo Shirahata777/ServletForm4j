@@ -12,7 +12,7 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>MainServletMapping</servlet-name>
 		<servlet-class>com.github.shirahata777.servlet.MainServlet</servlet-class>
 	</servlet>
@@ -43,7 +43,7 @@
 	<servlet-mapping>
 		<servlet-name>CompletionServletMapping</servlet-name>
 		<url-pattern>/completion</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
 	<resource-ref>
 		<res-ref-name>jdbc/default</res-ref-name>
